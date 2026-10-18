@@ -1,0 +1,46 @@
+{% load portfolio_extras %}
+{% if expertise %}
+<section id="expertise" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-label">What I do</div>
+      <h2>Six threads, one purpose</h2>
+      <p>My work moves between the research desk, the debate floor, the classroom, and the community — each shaping the others.</p>
+    </div>
+    <div class="media-row-list">
+      {% for area in expertise %}
+        {% with v=area.video_url|video_embed %}
+          <article class="media-row {% if area.image or v %}has-media {% cycle '' 'media-row-reverse' %}{% else %}no-media{% endif %}">
+            <div class="media-row-text">
+              <div class="media-row-icon">{{ area.icon }}</div>
+              <h3 class="media-row-title">{{ area.title }}</h3>
+              <div class="rich media-row-desc">{{ area.description|safe_html }}</div>
+              {% if area.tag %}<span class="media-row-tag">{{ area.tag }}</span>{% endif %}
+            </div>
+            {% if area.image %}
+              <div class="media-row-media">
+                <div class="media-row-frame {{ area.frame_shape|shape }}">
+                  <img src="{{ area.image.url }}" alt="{{ area.title }}" loading="lazy">
+                </div>
+              </div>
+            {% elif v %}
+              <div class="media-row-media">
+                <div class="media-row-video">
+                  {% if v.type == 'iframe' %}
+                    <iframe src="{{ v.url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy" title="{{ area.title }}"></iframe>
+                  {% else %}
+                    <video controls playsinline preload="metadata">
+                      <source src="{{ v.url }}">
+                      Your browser does not support embedded videos.
+                    </video>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          </article>
+        {% endwith %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

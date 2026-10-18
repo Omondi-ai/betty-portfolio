@@ -1,0 +1,54 @@
+{% load portfolio_extras %}
+{% if story %}
+<section id="story" class="section section-soft">
+  <div class="wrap">
+    <div class="media-row-list">
+      {% with v=story.video_url|video_embed %}
+        <article class="media-row {% if story.image or v %}has-media{% else %}no-media media-row-left{% endif %}">
+          <div class="media-row-text">
+            {% if story.aside_location or story.aside_focus or story.aside_current or story.aside_also %}
+              <div class="story-aside-inline">
+                {% if story.aside_location %}
+                  <div><strong>Based in</strong>{{ story.aside_location }}</div>
+                {% endif %}
+                {% if story.aside_focus %}
+                  <div><strong>Focus areas</strong>{{ story.aside_focus }}</div>
+                {% endif %}
+                {% if story.aside_current %}
+                  <div><strong>Currently</strong>{{ story.aside_current }}</div>
+                {% endif %}
+                {% if story.aside_also %}
+                  <div><strong>Also loves</strong>{{ story.aside_also }}</div>
+                {% endif %}
+              </div>
+            {% endif %}
+            <div class="section-label">{{ story.label }}</div>
+            <h2 class="media-row-title">{{ story.heading }}</h2>
+            <div class="rich media-row-desc story-body-content">{{ story.body|safe_html }}</div>
+          </div>
+          {% if story.image %}
+            <div class="media-row-media">
+              <div class="media-row-frame {{ story.frame_shape|shape }}">
+                <img src="{{ story.image.url }}" alt="{{ story.heading }}" loading="lazy">
+              </div>
+            </div>
+          {% elif v %}
+            <div class="media-row-media">
+              <div class="media-row-video">
+                {% if v.type == 'iframe' %}
+                  <iframe src="{{ v.url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy" title="{{ story.heading }}"></iframe>
+                {% else %}
+                  <video controls playsinline preload="metadata">
+                    <source src="{{ v.url }}">
+                    Your browser does not support embedded videos.
+                  </video>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        </article>
+      {% endwith %}
+    </div>
+  </div>
+</section>
+{% endif %}

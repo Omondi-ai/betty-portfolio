@@ -1,0 +1,44 @@
+{% load portfolio_extras %}
+{% if timeline %}
+<section id="journey" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-label">The path</div>
+      <h2>A journey in chapters</h2>
+    </div>
+    <div class="media-row-list">
+      {% for entry in timeline %}
+        {% with v=entry.video_url|video_embed %}
+          <article class="media-row {% if entry.image or v %}has-media {% cycle '' 'media-row-reverse' %}{% else %}no-media media-row-left{% endif %}">
+            <div class="media-row-text">
+              <div class="media-row-eyebrow">{{ entry.year_label }}</div>
+              <h3 class="media-row-title">{{ entry.title }}</h3>
+              <div class="rich media-row-desc">{{ entry.description|safe_html }}</div>
+            </div>
+            {% if entry.image %}
+              <div class="media-row-media">
+                <div class="media-row-frame {{ entry.frame_shape|shape }}">
+                  <img src="{{ entry.image.url }}" alt="{{ entry.title }}" loading="lazy">
+                </div>
+              </div>
+            {% elif v %}
+              <div class="media-row-media">
+                <div class="media-row-video">
+                  {% if v.type == 'iframe' %}
+                    <iframe src="{{ v.url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy" title="{{ entry.title }}"></iframe>
+                  {% else %}
+                    <video controls playsinline preload="metadata">
+                      <source src="{{ v.url }}">
+                      Your browser does not support embedded videos.
+                    </video>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          </article>
+        {% endwith %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

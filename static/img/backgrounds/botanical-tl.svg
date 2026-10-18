@@ -1,0 +1,51 @@
+<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="vineGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4a6b4a"/>
+      <stop offset="100%" stop-color="#7a9a7e"/>
+    </linearGradient>
+  </defs>
+  <path d="M 0 60 Q 120 100, 200 200 T 380 380" stroke="url(#vineGrad)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M 60 80 Q 100 40, 180 60" stroke="#7a9a7e" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M 150 140 Q 220 130, 250 180" stroke="#7a9a7e" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M 260 260 Q 320 240, 360 280" stroke="#7a9a7e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <g transform="translate(60, 60) rotate(20)">
+    <ellipse cx="0" cy="0" rx="35" ry="12" fill="#7a9a7e" opacity="0.85"/>
+    <line x1="-35" y1="0" x2="35" y2="0" stroke="#4a6b4a" stroke-width="0.8" opacity="0.6"/>
+  </g>
+  <g transform="translate(140, 90) rotate(-15)">
+    <ellipse cx="0" cy="0" rx="30" ry="11" fill="#a8bfa8"/>
+    <line x1="-30" y1="0" x2="30" y2="0" stroke="#5a7a5c" stroke-width="0.8" opacity="0.6"/>
+  </g>
+  <g transform="translate(180, 170) rotate(40)">
+    <ellipse cx="0" cy="0" rx="28" ry="10" fill="#7a9a7e" opacity="0.9"/>
+    <line x1="-28" y1="0" x2="28" y2="0" stroke="#4a6b4a" stroke-width="0.8" opacity="0.6"/>
+  </g>
+  <g transform="translate(220, 120) rotate(60)">
+    <ellipse cx="0" cy="0" rx="22" ry="8" fill="#a8bfa8"/>
+  </g>
+  <g transform="translate(280, 240) rotate(-25)">
+    <ellipse cx="0" cy="0" rx="32" ry="11" fill="#7a9a7e" opacity="0.85"/>
+    <line x1="-32" y1="0" x2="32" y2="0" stroke="#4a6b4a" stroke-width="0.8" opacity="0.6"/>
+  </g>
+  <g transform="translate(340, 320) rotate(30)">
+    <ellipse cx="0" cy="0" rx="26" ry="9" fill="#a8bfa8"/>
+  </g>
+  <g transform="translate(120, 200)">
+    <ellipse cx="0" cy="0" rx="8" ry="5" fill="#5a7a5c" transform="rotate(-25)" opacity="0.9"/>
+    <line x1="7" y1="-2" x2="7" y2="-22" stroke="#4a6b4a" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M 7 -22 Q 18 -18, 16 -12" stroke="#4a6b4a" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(250, 340)">
+    <ellipse cx="0" cy="0" rx="7" ry="4" fill="#5a7a5c" transform="rotate(-25)" opacity="0.9"/>
+    <line x1="6" y1="-2" x2="6" y2="-20" stroke="#4a6b4a" stroke-width="1.4" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(370, 370)">
+    <ellipse cx="0" cy="-10" rx="5" ry="7" fill="#d4b896" opacity="0.8"/>
+    <ellipse cx="10" cy="0" rx="5" ry="7" fill="#d4b896" opacity="0.8" transform="rotate(90 10 0)"/>
+    <ellipse cx="0" cy="10" rx="5" ry="7" fill="#d4b896" opacity="0.8"/>
+    <ellipse cx="-10" cy="0" rx="5" ry="7" fill="#d4b896" opacity="0.8" transform="rotate(90 -10 0)"/>
+    <circle cx="0" cy="0" r="5" fill="#8b5a3c"/>
+    <circle cx="0" cy="0" r="2" fill="#fef3e2"/>
+  </g>
+</svg>

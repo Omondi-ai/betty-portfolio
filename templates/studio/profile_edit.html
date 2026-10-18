@@ -1,0 +1,110 @@
+{% extends "studio/base_studio.html" %}
+
+{% block title %}Profile & hero{% endblock %}
+{% block page_title %}Profile &amp; hero{% endblock %}
+
+{% block content %}
+<div class="page-intro">
+  <h1>Profile &amp; hero</h1>
+  <p>The first thing visitors see: your portrait, tagline, and contact details.</p>
+</div>
+
+<form method="post" enctype="multipart/form-data" class="studio-form" novalidate>
+  {% csrf_token %}
+
+  <div class="form-card">
+    <h2 class="form-card-title">Identity</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="{{ form.full_name.id_for_label }}">Full name</label>
+        {{ form.full_name }}
+        {% if form.full_name.errors %}<div class="field-errors">{{ form.full_name.errors }}</div>{% endif %}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.headline.id_for_label }}">Tagline</label>
+        {{ form.headline }}
+        {% if form.headline.help_text %}<small class="field-help">{{ form.headline.help_text }}</small>{% endif %}
+        {% if form.headline.errors %}<div class="field-errors">{{ form.headline.errors }}</div>{% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <h2 class="form-card-title">Hero statement</h2>
+    <div class="form-group">
+      <label for="{{ form.hero_statement.id_for_label }}">Headline sentence</label>
+      {{ form.hero_statement }}
+      <small class="field-help">Formatting is preserved. Try bold, italics, or a link.</small>
+      {% if form.hero_statement.errors %}<div class="field-errors">{{ form.hero_statement.errors }}</div>{% endif %}
+    </div>
+    <div class="form-group" style="margin-top:18px;">
+      <label for="{{ form.intro.id_for_label }}">Short introduction</label>
+      {{ form.intro }}
+      {% if form.intro.errors %}<div class="field-errors">{{ form.intro.errors }}</div>{% endif %}
+    </div>
+  </div>
+
+  <div class="form-card">
+    <h2 class="form-card-title">Portrait</h2>
+    <div class="portrait-grid">
+      <div class="form-group">
+        <label for="{{ form.portrait.id_for_label }}">Upload a portrait</label>
+        {% if form.instance.portrait %}
+          <div class="current-file"><span>Currently: {{ form.instance.portrait.name }}</span></div>
+        {% endif %}
+        {{ form.portrait }}
+        <small class="field-help">A clear, well-lit portrait works best. The shape you choose below applies automatically.</small>
+        {% if form.portrait.errors %}<div class="field-errors">{{ form.portrait.errors }}</div>{% endif %}
+      </div>
+
+      <div class="shape-side">
+        <label>Frame shape</label>
+        {{ form.portrait_frame_shape }}
+        <div class="shape-live-preview" data-preview-wrapper>
+          <div class="shape-preview-frame shape-{{ current_shape }}" data-preview-frame>
+            {% if preview_image_url %}
+              <img src="{{ preview_image_url }}" alt="Portrait preview" data-preview-image>
+            {% endif %}
+          </div>
+          <span class="shape-preview-caption">Live preview</span>
+        </div>
+        {% if form.portrait_frame_shape.errors %}<div class="field-errors">{{ form.portrait_frame_shape.errors }}</div>{% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <h2 class="form-card-title">Contact</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="{{ form.location.id_for_label }}">Location</label>
+        {{ form.location }}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.email.id_for_label }}">Email</label>
+        {{ form.email }}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.phone.id_for_label }}">Phone</label>
+        {{ form.phone }}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.linkedin_url.id_for_label }}">LinkedIn URL</label>
+        {{ form.linkedin_url }}
+      </div>
+      <div class="form-group form-grid-full">
+        <label for="{{ form.cv_file.id_for_label }}">CV file (PDF)</label>
+        {% if form.instance.cv_file %}
+          <div class="current-file"><span>Currently: {{ form.instance.cv_file.name }}</span></div>
+        {% endif %}
+        {{ form.cv_file }}
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Save changes</button>
+    <a href="{% url 'studio:dashboard' %}" class="btn btn-ghost">Cancel</a>
+  </div>
+</form>
+{% endblock %}

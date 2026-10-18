@@ -1,0 +1,103 @@
+{% extends "studio/base_studio.html" %}
+{% load portfolio_extras %}
+
+{% block title %}{{ config.label }}{% endblock %}
+{% block page_title %}{{ config.label }}{% endblock %}
+
+{% block content %}
+<div class="page-intro page-intro-with-action">
+  <div>
+    <h1>{{ config.label }}</h1>
+    <p>{{ config.description }}</p>
+  </div>
+  <a href="{% url 'studio:section_create' section %}" class="btn btn-primary">+ Add {{ config.singular|lower }}</a>
+</div>
+
+<div class="list-toolbar">
+  <div class="list-filters">
+    <a href="?show=published" class="filter-link {% if show == 'published' %}is-active{% endif %}">Published</a>
+    <a href="?show=hidden" class="filter-link {% if show == 'hidden' %}is-active{% endif %}">Hidden</a>
+    <a href="?show=all" class="filter-link {% if show == 'all' %}is-active{% endif %}">All</a>
+  </div>
+</div>
+
+{% if items %}
+  <div class="data-table">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-handle"></th>
+          {% for field_name, field_label in config.list_fields %}
+            <th>{{ field_label }}</th>
+          {% endfor %}
+          <th class="col-status">Status</th>
+          <th class="col-actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td class="col-handle">
+              <form method="post" action="{% url 'studio:section_move' section item.pk 'up' %}" class="inline-form">
+                {% csrf_token %}
+                <button type="submit" class="icon-btn" aria-label="Move up">↑</button>
+              </form>
+              <form method="post" action="{% url 'studio:section_move' section item.pk 'down' %}" class="inline-form">
+                {% csrf_token %}
+                <button type="submit" class="icon-btn" aria-label="Move down">↓</button>
+              </form>
+            </td>
+            {% for field_name, field_label in config.list_fields %}
+              {% with value=item|getattr_filter:field_name %}
+                <td>
+                  {% if field_name == 'is_public' %}
+                    {% if value %}<span class="badge-ok">Public</span>{% else %}<span class="badge-no">Private</span>{% endif %}
+                  {% else %}
+                    {{ value }}
+                  {% endif %}
+                </td>
+              {% endwith %}
+            {% endfor %}
+            <td class="col-status">
+              {% if item.is_published %}
+                <span class="badge-ok">Visible</span>
+              {% else %}
+                <span class="badge-no">Hidden</span>
+              {% endif %}
+            </td>
+            <td class="col-actions">
+              <a href="{% url 'studio:section_edit' section item.pk %}" class="action-link">Edit</a>
+              {% if item.is_published %}
+                <form method="post" action="{% url 'studio:section_delete' section item.pk %}" class="inline-form" onsubmit="return confirm('Hide this item from the public site? You can restore it later from the Hidden tab.')">
+                  {% csrf_token %}
+                  <button type="submit" class="action-link action-danger">Hide</button>
+                </form>
+              {% else %}
+                <form method="post" action="{% url 'studio:section_restore' section item.pk %}" class="inline-form">
+                  {% csrf_token %}
+                  <button type="submit" class="action-link">Restore</button>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <div class="empty-state">
+    <div class="empty-icon">{{ config.icon }}</div>
+    <h2>No {{ config.label|lower }} yet</h2>
+    <p>
+      {% if show == 'hidden' %}
+        Nothing is hidden right now.
+      {% else %}
+        Start by adding your first one — it will appear on your public site instantly.
+      {% endif %}
+    </p>
+    {% if show != 'hidden' %}
+      <a href="{% url 'studio:section_create' section %}" class="btn btn-primary">+ Add {{ config.singular|lower }}</a>
+    {% endif %}
+  </div>
+{% endif %}
+{% endblock %}

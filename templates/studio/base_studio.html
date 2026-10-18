@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Studio{% endblock %} · {{ profile.full_name|default:"Studio" }}</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
+  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/shapes.css' %}">
+  <link rel="stylesheet" href="{% static 'css/studio.css' %}">
+  {% block head %}{% endblock %}
+</head>
+<body class="studio-body">
+  <div class="studio-shell">
+    {% include "studio/partials/sidebar.html" %}
+    <div class="studio-main">
+      <header class="studio-topbar">
+        <div class="topbar-title">{% block page_title %}Studio{% endblock %}</div>
+        <div class="topbar-actions">
+          <a href="/" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">View public site ↗</a>
+          <a href="{% url 'studio:logout' %}" class="btn btn-ghost btn-sm">Log out</a>
+        </div>
+      </header>
+      <main class="studio-content">
+        {% if messages %}
+          <div class="studio-messages">
+            {% for m in messages %}
+              <div class="alert alert-{{ m.tags|default:'info' }}">{{ m }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+  <script src="{% static 'js/studio.js' %}"></script>
+  <script src="{% static 'js/quill-init.js' %}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

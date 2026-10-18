@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in · Studio</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/shapes.css' %}">
+  <link rel="stylesheet" href="{% static 'css/studio.css' %}">
+</head>
+<body class="login-body">
+  <div class="login-shell">
+    <aside class="login-aside">
+      <div class="login-aside-inner">
+        <div class="login-brand">
+          <div class="brand-mark">{{ profile.full_name|first|upper|default:"B" }}</div>
+          <span>{{ profile.full_name|default:"Betty" }} · Studio</span>
+        </div>
+        <h1>Welcome back.</h1>
+        <p>This is your private space — add, edit, and shape the story that the world sees.</p>
+      </div>
+      <div class="login-decorations" aria-hidden="true">
+        <div class="deco shape-bloom"></div>
+        <div class="deco shape-leaf"></div>
+        <div class="deco shape-arch"></div>
+      </div>
+    </aside>
+
+    <main class="login-main">
+      <form method="post" class="login-form" novalidate>
+        {% csrf_token %}
+        <h2>Sign in</h2>
+        <p>Enter your username and password to continue.</p>
+
+        {% if form.non_field_errors %}
+          <div class="alert alert-error">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <div class="form-group">
+          <label for="{{ form.username.id_for_label }}">Username</label>
+          {{ form.username }}
+          {% if form.username.errors %}<div class="field-errors">{{ form.username.errors }}</div>{% endif %}
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.password.id_for_label }}">Password</label>
+          {{ form.password }}
+          {% if form.password.errors %}<div class="field-errors">{{ form.password.errors }}</div>{% endif %}
+        </div>
+
+        <input type="hidden" name="next" value="{{ next }}">
+        <button type="submit" class="btn btn-primary btn-full">Enter studio →</button>
+        <p class="login-help">Forgot your password? Ask your developer to reset it.</p>
+      </form>
+    </main>
+  </div>
+</body>
+</html>

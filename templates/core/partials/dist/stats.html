@@ -1,0 +1,12 @@
+{% if stats %}
+  <div class="wrap">
+    <div class="stats">
+      {% for stat in stats %}
+        <div class="stat">
+          <div class="stat-num">{{ stat.value }}</div>
+          <div class="stat-label">{{ stat.label }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

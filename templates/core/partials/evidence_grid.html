@@ -1,0 +1,52 @@
+{% load portfolio_extras %}
+{% if evidence %}
+<section id="evidence" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-label">Evidence</div>
+      <h2>Documents &amp; recognition</h2>
+    </div>
+    <div class="media-row-list">
+      {% for item in evidence %}
+        {% with v=item.video_url|video_embed %}
+          <article class="media-row {% if item.image or v %}has-media {% cycle '' 'media-row-reverse' %}{% else %}no-media{% endif %}">
+            <div class="media-row-text">
+              <div class="media-row-eyebrow">{{ item.get_category_display }}</div>
+              <h3 class="media-row-title">{{ item.title }}</h3>
+              {% if item.description %}
+                <div class="rich media-row-desc">{{ item.description|safe_html }}</div>
+              {% endif %}
+              {% if item.file or item.external_url %}
+                <div class="media-row-links">
+                  {% if item.file %}<a href="{{ item.file.url }}" target="_blank" rel="noopener">View file →</a>{% endif %}
+                  {% if item.external_url %}<a href="{{ item.external_url }}" target="_blank" rel="noopener">Open link →</a>{% endif %}
+                </div>
+              {% endif %}
+            </div>
+            {% if item.image %}
+              <div class="media-row-media">
+                <div class="media-row-frame {{ item.frame_shape|shape }}">
+                  <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy">
+                </div>
+              </div>
+            {% elif v %}
+              <div class="media-row-media">
+                <div class="media-row-video">
+                  {% if v.type == 'iframe' %}
+                    <iframe src="{{ v.url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy" title="{{ item.title }}"></iframe>
+                  {% else %}
+                    <video controls playsinline preload="metadata">
+                      <source src="{{ v.url }}">
+                      Your browser does not support embedded videos.
+                    </video>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          </article>
+        {% endwith %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

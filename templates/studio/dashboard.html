@@ -1,0 +1,126 @@
+{% extends "studio/base_studio.html" %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+  <div class="dashboard-hero">
+    <div class="dashboard-hero-text">
+      <h1>Hello, {{ profile.full_name|default:"Betty" }}.</h1>
+      <p>This is your studio. Everything here updates your public portfolio instantly.</p>
+    </div>
+    <div class="dashboard-completion">
+      <div class="completion-ring" style="--pct: {{ completion_percent }};">
+        <span>{{ done_count }}/{{ completion_total }}</span>
+      </div>
+      <div class="completion-text">
+        <strong>Portfolio completeness</strong>
+        <span>
+          {% if completion_percent < 100 %}
+            Keep going — you're {{ completion_percent }}% there.
+          {% else %}
+            All set — your portfolio looks complete.
+          {% endif %}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+    <div class="dashboard-card">
+      <div class="dashboard-card-head">
+        <h2>Quick actions</h2>
+      </div>
+      <div class="quick-actions">
+        <a href="{% url 'studio:profile_edit' %}" class="quick-action">
+          <span class="quick-action-icon">☺</span><span>Edit profile &amp; hero</span>
+        </a>
+        <a href="{% url 'studio:story_edit' %}" class="quick-action">
+          <span class="quick-action-icon">✎</span><span>Update your story</span>
+        </a>
+        <a href="{% url 'studio:section_create' 'timeline' %}" class="quick-action">
+          <span class="quick-action-icon">🌱</span><span>Add journey entry</span>
+        </a>
+        <a href="{% url 'studio:section_create' 'impact' %}" class="quick-action">
+          <span class="quick-action-icon">✦</span><span>Add impact story</span>
+        </a>
+        <a href="{% url 'studio:section_create' 'evidence' %}" class="quick-action">
+          <span class="quick-action-icon">📄</span><span>Upload evidence</span>
+        </a>
+        <a href="/" target="_blank" rel="noopener" class="quick-action">
+          <span class="quick-action-icon">↗</span><span>View public site</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="dashboard-card">
+      <div class="dashboard-card-head">
+        <h2>Your portfolio at a glance</h2>
+      </div>
+      <div class="stats-mini">
+        <div class="mini-stat">
+          <div class="mini-stat-num">{{ counts.stats }}</div>
+          <div class="mini-stat-label">Hero stats</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-num">{{ counts.expertise }}</div>
+          <div class="mini-stat-label">Expertise areas</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-num">{{ counts.timeline }}</div>
+          <div class="mini-stat-label">Journey entries</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-num">{{ counts.impact }}</div>
+          <div class="mini-stat-label">Impact stories</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-num">{{ counts.evidence }}</div>
+          <div class="mini-stat-label">Evidence items</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-num">{{ counts.messages_total }}</div>
+          <div class="mini-stat-label">Messages</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-card">
+      <div class="dashboard-card-head">
+        <h2>Checklist</h2>
+      </div>
+      <ul class="checklist">
+        {% for label, done in completion %}
+          <li class="checklist-item {% if done %}is-done{% endif %}">
+            <span class="checklist-mark">{% if done %}✓{% else %}○{% endif %}</span>
+            <span>{{ label }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="dashboard-card">
+      <div class="dashboard-card-head">
+        <h2>Recent messages</h2>
+        <a href="{% url 'studio:messages_list' %}" class="card-link">View all →</a>
+      </div>
+      {% if recent_messages %}
+        <ul class="recent-messages">
+          {% for m in recent_messages %}
+            <li class="recent-message {% if not m.is_read %}is-unread{% endif %}">
+              <a href="{% url 'studio:message_detail' m.pk %}">
+                <div class="msg-name">{{ m.name }}</div>
+                <div class="msg-preview">{{ m.message|truncatechars:80 }}</div>
+                <div class="msg-date">{{ m.created_at|date:"M j, Y · H:i" }}</div>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="empty-hint">No messages yet. When someone writes through your contact form, it will appear here.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

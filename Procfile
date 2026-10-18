@@ -1,0 +1,1 @@
+web: gunicorn betty_portfolio.wsgi --bind 0.0.0.0:$PORT

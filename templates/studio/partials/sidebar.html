@@ -1,0 +1,60 @@
+{% load static %}
+<aside class="studio-sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-mark">{{ profile.full_name|first|upper|default:"B" }}</div>
+    <div class="sidebar-brand-text">
+      <strong>{{ profile.full_name|default:"Betty" }}</strong>
+      <span>Studio</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a href="{% url 'studio:dashboard' %}"
+       class="sidebar-link {% if request.resolver_match.url_name == 'dashboard' %}is-active{% endif %}">
+      <span class="sidebar-icon">⌂</span><span>Dashboard</span>
+    </a>
+
+    <div class="sidebar-section">Content</div>
+
+    <a href="{% url 'studio:profile_edit' %}"
+       class="sidebar-link {% if request.resolver_match.url_name == 'profile_edit' %}is-active{% endif %}">
+      <span class="sidebar-icon">☺</span><span>Profile &amp; hero</span>
+    </a>
+    <a href="{% url 'studio:story_edit' %}"
+       class="sidebar-link {% if request.resolver_match.url_name == 'story_edit' %}is-active{% endif %}">
+      <span class="sidebar-icon">✎</span><span>Story</span>
+    </a>
+    <a href="{% url 'studio:section_list' 'stats' %}"
+       class="sidebar-link {% if request.resolver_match.kwargs.section == 'stats' %}is-active{% endif %}">
+      <span class="sidebar-icon">📊</span><span>Hero stats</span>
+    </a>
+    <a href="{% url 'studio:section_list' 'expertise' %}"
+       class="sidebar-link {% if request.resolver_match.kwargs.section == 'expertise' %}is-active{% endif %}">
+      <span class="sidebar-icon">◎</span><span>Expertise</span>
+    </a>
+    <a href="{% url 'studio:section_list' 'timeline' %}"
+       class="sidebar-link {% if request.resolver_match.kwargs.section == 'timeline' %}is-active{% endif %}">
+      <span class="sidebar-icon">🌱</span><span>Journey</span>
+    </a>
+    <a href="{% url 'studio:section_list' 'impact' %}"
+       class="sidebar-link {% if request.resolver_match.kwargs.section == 'impact' %}is-active{% endif %}">
+      <span class="sidebar-icon">✦</span><span>Impact stories</span>
+    </a>
+    <a href="{% url 'studio:section_list' 'evidence' %}"
+       class="sidebar-link {% if request.resolver_match.kwargs.section == 'evidence' %}is-active{% endif %}">
+      <span class="sidebar-icon">📄</span><span>Evidence</span>
+    </a>
+
+    <div class="sidebar-section">Inbox</div>
+
+    <a href="{% url 'studio:messages_list' %}"
+       class="sidebar-link {% if 'messages' in request.resolver_match.url_name %}is-active{% endif %}">
+      <span class="sidebar-icon">✉</span><span>Messages</span>
+      {% if studio_unread_messages %}<span class="sidebar-badge">{{ studio_unread_messages }}</span>{% endif %}
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a href="/" target="_blank" rel="noopener" class="sidebar-footer-link">View public site ↗</a>
+  </div>
+</aside>

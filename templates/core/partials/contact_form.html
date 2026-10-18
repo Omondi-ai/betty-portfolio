@@ -1,0 +1,43 @@
+<section id="contact" class="section section-cta">
+  <div class="wrap cta-inner">
+    <div class="cta-text">
+      <h2>Let's work together.</h2>
+      <p>Open to judging assignments, mentorship programmes, research collaborations, speaking engagements, and partnerships.</p>
+      <div class="cta-meta">
+        {% if profile.email %}
+          <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>
+        {% endif %}
+        {% if profile.linkedin_url %}
+          <a href="{{ profile.linkedin_url }}" target="_blank" rel="noopener">LinkedIn →</a>
+        {% endif %}
+        {% if profile.cv_file %}
+          <a href="{{ profile.cv_file.url }}" target="_blank" rel="noopener">Download CV →</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <form method="post" class="contact-form" novalidate>
+      {% csrf_token %}
+
+      {% if messages %}
+        {% for m in messages %}
+          <div class="alert alert-{{ m.tags }}">{{ m }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="form-row">
+        {{ form.name }}
+        {{ form.name.errors }}
+      </div>
+      <div class="form-row">
+        {{ form.email }}
+        {{ form.email.errors }}
+      </div>
+      <div class="form-row">
+        {{ form.message }}
+        {{ form.message.errors }}
+      </div>
+      <button type="submit" class="btn btn-primary">Send message →</button>
+    </form>
+  </div>
+</section>
